@@ -10,7 +10,6 @@ module top_level(
   wire[7:0]   datA,datB,		  // from RegFile
               muxB, 				  // Not being used for now
 				  rslt,				  // result from ALU
-              immed,
 				  writeData;
 				  
   logic 		  sc_in,   				       // shift/carry out from/to ALU
@@ -28,7 +27,7 @@ module top_level(
   wire[A-1:0] alu_cmd;
   wire[8:0]   mach_code;          // machine code
   wire[2:0]   rd_addrA, rd_addrB;  // address pointers to reg_file CHANGING TO 2 BITS FOR SOURCE REGISTER
-  wire[1:0]   sel_cmd;					//selection command
+  wire[1:0]   immed;					//immed command
 // fetch subassembly
   PC #(.D(D)) 					  // D sets program counter width
      pc1 (.reset           ,
@@ -58,7 +57,8 @@ module top_level(
 
   assign rd_addrA = mach_code[5:3];
   assign rd_addrB = mach_code[2:0];
-  assign sel_cmd  = mach_code[1:0];
+  assign immed    = mach_code[1:0];
+  assign direct   = mach_code[2]; 
   assign alu_cmd  = mach_code[8:6];
 
   reg_file #(.pw(3)) rf1(.dat_in(writeData),	   // loads, most ops
@@ -71,7 +71,8 @@ module top_level(
               .datB_out(datB)); 
 
   alu alu1(.alu_cmd(alu_cmd),
-		 .sel_cmd(sel_cmd),
+		 .immed (immed),
+		 .direct			,
        .inA    (datA),
 		 .inB    (datB),
 		 .sc_i   (sc)  ,   // output from sc register
