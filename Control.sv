@@ -14,22 +14,42 @@ always_comb begin
   ALUSrc 	=	 'b0;   // 1: immediate  0: second reg file output
   RegWrite  =	 'b1;   // 0: for store or no op  1: most other operations 
   MemtoReg  =	 'b0;   // 1: load -- route memory instead of ALU to reg_file data in
-  ALUOp	   =  'b111; // y = a+0;
-// sample values only -- use what you need
-case(instr)    			// override defaults with exceptions
-  'b000:  begin					      // store operation
-               MemWrite = 'b1;      // write to data mem
-               RegWrite = 'b0;      // typically don't also load reg_file
-			 end
-  'b001:  ALUOp      = 'b000;  // add:  y = a+b
-  'b010:  begin				    // load
-			   MemtoReg = 'b1;    // 
-          end
-  'b111:	 begin
+  ALUOp	   =   'b111; // y = a+0;
+
+  
+case(instr)    							
+  'b000: begin					      //LDR
+				MemtoReg = 'b1;       
+            RegWrite = 'b0;
+				ALUOp    = 3'b000;
+			end
+  'b001: begin  						//STR
+				RegWrite = 'b0; 
+				MemWrite = 'b1; 
+				ALUOp    = 3'b001; 
+			end
+  'b010: begin				    		//MOV
+				ALUOp    = 3'b010;   
+         end
+  'b011: begin							//XOR
+				ALUOp    = 3'b011;
+			end
+  'b100: begin							//AND
+				ALUOp    = 3'b100; 
+			end
+  'b101: begin							//SHIFT
+				 ALUOp   = 3'b101; 
+			end
+  'b110: begin							//CMP
+				ALUOp    = 3'b110;
+			end
+  'b111:	 begin						//	BR				
 					if (br_logic)
 						Branch = 'b1;
+					
+					ALUOp    = 3'b111;
+					RegWrite = 'b0; 
 			 end
-// ...
 endcase
 
 end
