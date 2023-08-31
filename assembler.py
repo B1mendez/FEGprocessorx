@@ -20,17 +20,6 @@ def convert(inFile, outFile1):
 
 	distance = {'p1for1': '000000', 'p1for2': '000111'}
 	
-	# reads through assembly and collects labels to populate lookup table
-	# lut = {}
-	# for line in assembly:
-	# 	instr = line.split();	
-	# 	lineNum += 1
-	# 	#check if it is a label or not
-	# 	if instr[0] not in opcodes:
-	# 		lut[instr[0].replace(':', '')] = labelsNum
-	# 		lut_file.write(str(lineNum) + '\n')
-	# 		labelsNum += 1
-	
 	#reads through file to convert instructions to machine code
 	for line in assembly:
 		output = ""
