@@ -1,0 +1,17 @@
+MOV R0, #0		// initialize loop counter i
+
+LOOP:
+MOV R1, R0		// R1 = i
+MOV R2, #1		// R2 = 1
+ADD R1, R1		// R1 = 2*i
+ADD R2, R1 		// R2 = 2*i + 1
+
+LDR R1, R1		// R1 = data_mem[2*i]   => MSW_input
+LDR R2, R2		// R2 = data_mem[2*i+1] => LSW_input
+SHIFT R1, 0, #5	// 	
+MOV R3, #0xF0
+AND R3, R2		// LSW_input & 1111 0000 = R3
+
+
+
+
