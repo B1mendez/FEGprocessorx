@@ -24,7 +24,8 @@ module top_level(
               MemWrite,						// immediate switch
               ALUSrc,
 				  MemtoReg, 
-		        br_flag;		              
+		        br_flag;
+  wire[2:0]   alu_cmd;
   wire[8:0]   mach_code;          // machine code
   wire[2:0]   rd_addrA, rd_addrB;  // address pointers to reg_file CHANGING TO 2 BITS FOR SOURCE REGISTER
   wire[1:0]   immed;					//immed command
@@ -53,11 +54,12 @@ module top_level(
 				   .br_logic ,
 					.RegWrite ,
 					.MemtoReg ,
-					.ALUOp (mach_code[8:6]));
+					.ALUOp (alu_cmd));
 					
 
   assign rd_addrA = mach_code[5:3];
   assign rd_addrB = mach_code[2:0];
+  assign alu_cmd  = mach_code[8:6];
   assign immed    = mach_code[1:0];
 
   reg_file #(.pw(3)) rf1(.dat_in(muxA),	   // loads, most ops
@@ -71,15 +73,15 @@ module top_level(
 				  
   assign muxA = MemtoReg? writeData : rslt;
 
-  alu alu1(.alu_cmd(mach_code[8:6]),
-		 .immed (immed),
-		 .direct	(mach_code[2]),
-       .inA    (datA),
-		 .inB    (datB),
-		 .rslt   (rslt),
-		 .br_logic(br_flag));  
+  alu alu1(.alu_cmd(alu_cmd),
+		 .immed      (immed),
+		 .direct	    (mach_code[2]),
+       .inA        (datA),
+		 .inB        (datB),
+		 .rslt       ,
+		 .br_logic   (br_flag));  
 	
-  dat_mem dm1(.dat_in(datB)  ,  // from reg_file
+  dat_mem dm1(.dat_in(datA)  ,  // from reg_file
              .clk           ,
 			    .wr_en  (MemWrite), // stores
 			    .addr   (rslt), //store result data //was initially given as datA??? 
