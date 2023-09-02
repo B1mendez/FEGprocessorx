@@ -14,15 +14,14 @@
 );
 
 always_comb begin 
-  rslt = 8'b0;            
   br_logic = 'b0;
 	
   case(alu_cmd)
     3'b000: // LDR 
-		rslt = inA;
+		rslt = inB;
 	  
     3'b001: // STR
-		rslt = inA;
+		rslt = inB;
 	   
     3'b010: // MOV 
       rslt = immed;
