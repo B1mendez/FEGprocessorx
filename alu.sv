@@ -4,6 +4,7 @@
   input[2:0] alu_cmd,     // ALU instructions
   input[1:0] immed,
   input      direct,
+  input		 moveControl,
   input[7:0] inA, inB,	  // 8-bit wide data path
 //  input      sc_i,        // shift_carry in
   output logic[7:0] rslt,
@@ -23,8 +24,13 @@ always_comb begin
     3'b001: // STR
 		rslt = inB;
 	   
-    3'b010: // MOV 
-      rslt = immed;
+    3'b010: // MOV & ADD
+		begin
+			if (moveControl) 				//ADD 
+				rslt = inA + immed;
+			else								//MOV
+				rslt = immed;
+		end
 	  
     3'b011: // XOR (Bitwise XOR)
       rslt = inA ^ inB;
