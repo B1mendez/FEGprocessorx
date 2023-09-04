@@ -19,7 +19,7 @@ always_comb begin
 case(instr)    							
   'b000: begin					      //LDR
 				MemtoReg = 'b1;       
-            RegWrite = 'b0;
+            RegWrite = 'b1;
 				ALUOp    = 3'b000;
 			end
   'b001: begin  						//STR
@@ -27,7 +27,7 @@ case(instr)
 				MemWrite = 'b1; 
 				ALUOp    = 3'b001; 
 			end
-  'b010: begin				    		//MOV
+  'b010: begin				    		//MOV & ADD
 				ALUOp    = 3'b010;   
          end
   'b011: begin							//XOR
