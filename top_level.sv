@@ -76,6 +76,7 @@ module top_level(
   alu alu1(.alu_cmd(alu_cmd),
 		 .immed      (immed),
 		 .direct	    (mach_code[2]),
+		 .moveControl(mach_code[2]),
        .inA        (datA),
 		 .inB        (datB),
 		 .rslt       ,
