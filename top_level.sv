@@ -16,7 +16,7 @@ module top_level(
 				  pariQ,              	    // registered parity flag from ALU
 		        zeroQ,							 // registered zero flag from ALU 
 		        br_logic;                    
-  wire        relj;                     // from control to PC; relative jump enable
+  wire        jump;   // from control to PC; relative jump enable
   wire        pari,
               zero,
 		        sc_clr,
@@ -33,13 +33,14 @@ module top_level(
   PC #(.D(D)) 					  // D sets program counter width
      pc1 (.reset           ,
        .clk              ,
-		 .reljump_en (relj),
+		 .jump_en (jump),
+		 .abs_jump(mach_code[5]),
 		 .target     (target),
 		 .prog_ctr          );
 
 // lookup table to facilitate jumps/branches
   PC_LUT #(.D(D))
-    pl1 (.addr  (mach_code[5:0]), //how_high
+    pl1 (.addr  (mach_code[4:0]), //how_high
          .target (target));   
 
 // contains machine code
@@ -48,7 +49,7 @@ module top_level(
 
 // control decoder
   Control ctl1(.instr	 (mach_code[8:6]), 
-					.Branch   (relj), 
+					.Branch   (jump), 
 					.MemWrite , 
 					.ALUSrc   ,
 				   .br_logic ,
