@@ -13,12 +13,12 @@ def convert(inFile, outFile1):
 	# 'MOV' : '100', 'CMP' : '101', 'BR' : '110', 'HT' : '111'}
 
 	opcodes = {'LDR': '000', 'STR': '001', 'MOV': '010', 'XOR': '011',
-	'AND': '100', 'SHIFT' : '101', 'CMP' : '110', 'BEQ': '111', 'ADD': '0000'}
+	'AND': '100', 'SHIFT' : '101', 'CMP' : '110', 'BNE': '111', 'ADD': '0000'}
 	
 	registers = {'r0' : '000', 'r1' : '001', 'r2' : '010', 'r3' : '011',
 	'r4' : '100', 'r5' : '101', 'r6' : '110', 'r7' : '111'}
 
-	distance = {'p1for1': '00000', 'p1for2': '00111'}
+	distance = {'p1for': '00000', 'p1for2': '00001'}
 	
 	#reads through file to convert instructions to machine code
 	for line in assembly:
@@ -83,13 +83,17 @@ def convert(inFile, outFile1):
 				output += operation
 				output += registers[instr[1]]
 				output += registers[instr[2]]
-			# BEQ
-			# Example of BEQ
-			# BEQ target
-			# instr[0] = 'BEQ' instr[1]=target			
+			# BNE
+			# Example of BNE
+			# BNE target
+			# instr[0] = 'BNE' instr[1]=target			
 			else:
 				output += operation
-				output += distance[instr[1]]
+				if instr[1] == "A":
+					output += '1'
+				else:
+					output += '0'
+				output += distance[instr[2]]
 			#write binary to machine code output file
 			machine_file.write(str(output) + '\t// ' + line + '\n')
 
