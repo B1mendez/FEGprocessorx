@@ -18,7 +18,7 @@ def convert(inFile, outFile1):
 	registers = {'r0' : '000', 'r1' : '001', 'r2' : '010', 'r3' : '011',
 	'r4' : '100', 'r5' : '101', 'r6' : '110', 'r7' : '111'}
 
-	distance = {'p1for': '00000', 'p1for2': '00001'}
+	distance = {'p1for': '00000', 'p2SEC': '00001', 'p2DED: '00010', 'p2for': '00011'}
 	
 	#reads through file to convert instructions to machine code
 	for line in assembly:
