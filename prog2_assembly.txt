@@ -1,4 +1,20 @@
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r6 0
+MOV r7 0
+
 MOV r0 0 		// initialize loop counter i
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r6 0
+MOV r7 0
 
 SHIFT r0 L 1
 ADD r0 3 
@@ -743,5 +759,29 @@ MOV r7 3
 XOR r3 r7		// 00001111
 XOR r2 r4		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1 	
 
+SHIFT r0 R 1
+ADD r0 -3 
+ADD r0 -3
+ADD r0 -3
+ADD r0 -3
+ADD r0 -3
+ADD r0 -3
+ADD r0 -3
+ADD r0 -3
+ADD r0 -3
+ADD r0 -3
+ADD r0 -1		 
+STR r0 r1
 ADD r0 1
-BEQ start of loop
+STR r0 r2
+
+MOV r1 1
+SHIFT r1 L 3
+ADD r1 3
+ADD r1 3
+ADD r1 1
+
+CMP r0 r1
+BNE A p1for
+
+MOV r0 0
