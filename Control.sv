@@ -27,7 +27,7 @@ case(instr)
 				MemWrite = 'b1; 
 				ALUOp    = 3'b001; 
 			end
-  'b010: begin				    		//MOV & ADD
+  'b010: begin				    		//MOV
 				ALUOp    = 3'b010;   
          end
   'b011: begin							//XOR
@@ -41,6 +41,7 @@ case(instr)
 			end
   'b110: begin							//CMP
 				ALUOp    = 3'b110;
+				RegWrite = 'b0;
 			end
   'b111:	 begin						//	BR				
 					if (br_logic)
