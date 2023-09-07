@@ -47,7 +47,7 @@ always_comb begin
 		end
     3'b110: //CMP compare function
 		begin
-			if (inA == inB)
+			if (inA != inB)
 				br_logic = 'b1;
 			else
 				br_logic = 'b0;
