@@ -205,8 +205,8 @@ SHIFT r7 L 2		// 01000000
 AND r7 r5
 SHIFT r7 R 1
 XOR r6 r7
-MOV r7 2		// d7
-SHIFT r7 L 3
+MOV r7 2		// d7 00001000 d11 d10 d9 d8 d7 d6 d5 0
+SHIFT r7 L 2
 AND r7 r5
 SHIFT r7 L 2
 XOR r6 r7
@@ -240,7 +240,7 @@ SHIFT r7 L 3
 AND r7 r5
 SHIFT r7 R 3 
 XOR r6 r7
-MOV r7 2		// d9
+MOV r7 2		// d9  d11 d10 d9 d8 d7 d6 d5 0 -- 0  0  0  0  0  0  1  0 -- p8 p4 p2 p1 p0 0 0 0
 SHIFT r7 L 3
 SHIFT r7 L 1
 AND r7 r5
@@ -249,7 +249,7 @@ XOR r6 r7
 MOV r7 2		// d7
 SHIFT r7 L 2
 AND r7 r5
-SHIFT r7 L 1
+SHIFT r7 L 2
 XOR r6 r7
 MOV r7 2		// d5
 AND r7 r5
@@ -261,7 +261,7 @@ SHIFT r7 L 3
 AND r7 r4
 SHIFT r7 R 3
 XOR r6 r7
-MOV r7 2		// d2
+MOV r7 2		// d2  d4 d3 d2 d1 0 0 0 0 --- 
 SHIFT r7 L 3
 SHIFT r7 L 1
 AND r7 r4
