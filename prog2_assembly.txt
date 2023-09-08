@@ -8,6 +8,15 @@ MOV r6 0
 MOV r7 0
 
 MOV r0 0 		// initialize loop counter i
+MOV r3 3            // 00000011
+SHIFT r3 L 3        // 00011000
+MOV r4 1            // 00000001
+XOR r3 r4           // 00011001
+SHIFT r3 L 2        // 01100100 = 100 register r0 stored
+STR r0 r3
+
+MOV r4 0            // temp
+LDR r0 r3           // start for loop here
 MOV r1 0
 MOV r2 0
 MOV r3 0
@@ -34,36 +43,38 @@ LDR r2 r0		// r2 = data_mem[2*i + 31] MSB
 
 MOV r3 0   		// Store all the parity bits as p8_p4_p2_p1_p0_000       
 
-//p0
+// p0
 MOV r4 1
 AND r4 r1
 XOR r3 r4		// 0000000p0
 SHIFT r3 L 3		// 0000p0_000
 
-//p1
+// p1
 MOV r4 2		// Mask all bits in r1 except the second bit (p1)
 AND r4 r1			
 SHIFT r4 L 3 		// 000p10_000
 XOR r3 r4		// 000p1_p0_000 stored in r3
 
-//p2
-MOV r4 2		//10
-SHIFT r4 L 1		//00000100
+// p2
+MOV r4 2		// 10
+SHIFT r4 L 1		// 00000100
 AND r4 r1		// Mask all bits in r1 except the second bit (p2)
-SHIFT r1 R 1     	// Shift to the right to align with p2 in r3
-XOR r3 r1          	// Store p2 in r3 00_p2_p1_p0_000
+SHIFT r4 L 3     	// Shift to the right to align with p2 in r3
+XOR r3 r4          	// Store p2 in r3 00_p2_p1_p0_000
 
-//p4
+// p4
 MOV r4 2		// Mask all bits in r1 except the fifth bit (p4) 00000010 00000100 00001000
 SHIFT r4 L 3		//00010000         
 AND r4 r1	        
-SHIFT r1 L 3     	// Shift to the right to align with p4 in r3
-XOR r3 r1          	// Store p4 in r3 0p4_p2_p1_p0_000
+SHIFT r4 L 2     	// Shift to the right to align with p4 in r3
+XOR r3 r4          	// Store p4 in r3 0p4_p2_p1_p0_000
 
-//p8
-MOV r4 1		// Mask all bits in r2 except the first bit (p8)
-AND r4 r2		
-SHIFT r2 R 1     	// Shift to the right to align with p8 in r3
+// p8
+MOV r4 1		// Mask all bits in r2 except the first bit (p8) 00000001
+AND r4 r2		    // 0000 000p8
+SHIFT r4 L 3     	// Shift to the right to align with p8 in r3
+SHIFT r4 L 3
+SHIFT r4 L 1
 XOR r3 r4          	// Store p8 in r3 p8_p4_p2_p1_p0_000
 
 MOV r4 0          	
@@ -75,7 +86,7 @@ SHIFT r6 L 1		// 00000110
 MOV r7 1
 XOR r6 r7		// 00000111
 SHIFT r6 L 3
-SHIFT r6 L 2		//11100000	
+SHIFT r6 L 2		// 11100000	
 AND r6 r1	       	
 XOR r4 r6         	// Store d2-d4 in r4
 MOV r6 2		// get d1 and add to r4
@@ -99,26 +110,26 @@ AND r6 r2
 XOR r5 r6          	// Store d5:d11 in r5 d11_d10_d9_d8_d7_d6_d5_0
 MOV r6 0		// Calculate parity bit and store in r6	to get p8_p4_p2_p1_p0_000 calc
 
-//p8_cal
+// p8_cal
 MOV r7 2		// d11 
 SHIFT r7 L 3		     
-SHIFT r7 L 3		//10000000
+SHIFT r7 L 3		// 10000000
 AND r7 r5
 XOR r6 r7
 MOV r7 2		// d10
 SHIFT r7 L 3
-SHIFT r7 L 2		//01000000
+SHIFT r7 L 2		// 01000000
 AND r7 r5
 SHIFT r7 L 1
 XOR r6 r7
 MOV r7 2		// d9
 SHIFT r7 L 3
-SHIFT r7 L 1		//00100000
+SHIFT r7 L 1		// 00100000
 AND r7 r5
 SHIFT r7 L 2
 XOR r6 r7
 MOV r7 2		// d8
-SHIFT r7 L 3		//00010000
+SHIFT r7 L 3		// 00010000
 AND r7 r5
 SHIFT r7 L 3
 XOR r6 r7
@@ -140,12 +151,12 @@ SHIFT r7 L 3
 SHIFT r7 L 3
 XOR r6 r7		// p8cal_0000000
 
-//p4_cal
+// p4_cal
 MOV r7 2		// d11
 SHIFT r7 L 3
 SHIFT r7 L 3
 AND r7 r5
-SHIFT R7 R 1 
+SHIFT r7 R 1 
 XOR r6 r7
 MOV r7 2		// d10
 SHIFT r7 L 3
@@ -176,12 +187,12 @@ AND r7 r4
 XOR r6 r7
 MOV r7 2		// d2
 SHIFT r7 L 3
-SHIFT r7 L 1		//00100000
+SHIFT r7 L 1		// 00100000
 AND r7 r4
 SHIFT r7 L 1
 XOR r6 r7		// p8cal_p4cal_000000
 
-//p2_cal
+// p2_cal
 MOV r7 2		// d11
 SHIFT r7 L 3
 SHIFT r7 L 3
@@ -190,7 +201,7 @@ SHIFT r7 R 2
 XOR r6 r7
 MOV r7 2		// d10
 SHIFT r7 L 3
-SHIFT r7 L 2		//01000000
+SHIFT r7 L 2		// 01000000
 AND r7 r5
 SHIFT r7 R 1
 XOR r6 r7
@@ -217,12 +228,12 @@ AND r7 r4
 SHIFT r7 R 1
 XOR r6 r7
 MOV r7 2		// d1
-SHIFT r7 L 3		//00000010 => 00010000
+SHIFT r7 L 3		// 00000010 => 00010000
 AND r7 r4
 SHIFT r7 L 1
 XOR r6 r7		// p8cal_p4cal_p2cal_00000	
 
-//p1_cal
+// p1_cal
 MOV r7 2		// d11
 SHIFT r7 L 3
 SHIFT r7 L 3
@@ -261,7 +272,7 @@ SHIFT r7 L 3
 AND r7 r4
 XOR r6 r7		// p8cal_p4cal_p2cal_p1cal_0000		
 
-//p0_cal		// XOR d1:d11 p8 p4 p2 p1
+// p0_cal		// XOR d1:d11 p8 p4 p2 p1
 MOV r7 2		// d11
 SHIFT r7 L 3
 SHIFT r7 L 3
@@ -348,9 +359,9 @@ AND r7 r3
 SHIFT r7 R 1
 XOR r6 r7		// store calc parity p8cal_p4cal_p2cal_p1cal_p0cal_000
 
-//free registers are now  r1,r2,r7
-//Use R1 & R2 to store p_rec & p_cal then compare
-//CMP p0
+// free registers are now  r1,r2,r7
+// Use R1 & R2 to store p_rec & p_cal then compare
+// CMP p0
 MOV r1 2
 SHIFT r1 L 2
 AND r1 r3
@@ -358,10 +369,11 @@ MOV r2 2
 SHIFT r2 L 2
 AND r2 r6
 CMP r1 r2
+BNE A SEC
 // if not equal jump to label SEC
 // if equal proceed to the next line 
 
-//CMP p8
+// CMP p8
 MOV r1 2
 SHIFT r1 L 3
 SHIFT r1 L 3
@@ -371,9 +383,10 @@ SHIFT r2 L 3
 SHIFT r2 L 3
 AND r2 r6
 CMP r1 r2 
+BNE A DED
 // if not equal jump to label DED
 
-//CMP p4
+// CMP p4
 MOV r1 2
 SHIFT r1 L 3
 SHIFT r1 L 2
@@ -383,9 +396,10 @@ SHIFT r2 L 3
 SHIFT r2 L 2
 AND r2 r6
 CMP r1 r2 
+BNE A DED
 // if not equal jump to label DED
 
-//CMP p2
+// CMP p2
 MOV r1 2
 SHIFT r1 L 3
 SHIFT r1 L 1
@@ -395,9 +409,10 @@ SHIFT r2 L 3
 SHIFT r2 L 1
 AND r2 r6
 CMP r1 r2
+BNE A DED
 // if not equal jump to label DED 
 
-//CMP p1
+// CMP p1
 MOV r1 2
 SHIFT r1 L 3
 AND r1 r3
@@ -405,18 +420,18 @@ MOV r2 2
 SHIFT r2 L 3
 AND r2 r6
 CMP r1 r2
+BNE A DED
 // if not equal jump to label DED
 // if equal that means we made it to the end no errors found label NED
 
-//NED:
-MOV r1 0
+MOV r1 0        // NED:
 MOV r2 3
 SHIFT r2 L 2
 MOV r7 2
 XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 11100000
-XOR r2 r5
+AND r2 r5
 SHIFT r2 R 3
 SHIFT r2 R 2		
 XOR r1 r2		// final format r1 = F1 F0 0 0 0 D11 D10 D9
@@ -432,11 +447,14 @@ MOV r3 3		// 00000011
 SHIFT r3 L 2		// 00001100
 MOV r7 3		// 00001111
 XOR r3 r7		// 00001111
-XOR r2 r4		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1 	
-BNE A p3END
+AND r3 r4       // 0000d4d3d2d1
+XOR r2 r3		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1
+MOV r3 1
+MOV r4 2
+CMP r3 r4
+BNE A ENDSEC
 
-//SEC(single error correction): 
-MOV r1 3		// 00000011
+MOV r1 3		// SEC(single error correction): 00000011
 SHIFT r1 L 2		// 00001100
 MOV r7 3		// 00000011
 XOR r1 r7		// 00001111
@@ -451,14 +469,17 @@ XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 11110000
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 5
+BNE A d10
 MOV r1 2				
 SHIFT r1 L 3
 SHIFT r1 L 3
 XOR r5 r1		// flip d11 then jump to end
-BNE A p3END		
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC		
 
-MOV r1 3
+MOV r1 3        // d10-loop
 SHIFT r1 L 2
 MOV r7 2
 XOR r1 r7
@@ -471,14 +492,17 @@ MOV r7 2
 XOR r2 r7
 SHIFT r2 L 3 		// 01110000		
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 6
+BNE A d9
 MOV r1 2
 SHIFT r1 L 3
 SHIFT r1 L 2
 XOR r5 r1		// flip d10 then jump to end
-BNE A p3END
-	
-MOV r1 2		// 00000010
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
+
+MOV r1 2		// d9-loop 00000010
 SHIFT r1 L 2 		// 00001000
 MOV r7 3		// 00000011
 XOR r1 r7		// 00001011
@@ -493,14 +517,17 @@ XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 5
+BNE A d8
 MOV r1 2
-SHIFT r1 3 
-SHIFT r1 1
+SHIFT r1 L 3 
+SHIFT r1 L 1
 XOR r5 r1		// flip d9 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 3
+MOV r1 3            // d8-loop
 SHIFT r1 L 3 
 SHIFT r1 L 1		// 00110000
 AND r1 r6
@@ -509,13 +536,16 @@ MOV r2 3
 SHIFT r2 L 3
 SHIFT r2 L 1		// 00110000		
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 4
+BNE A d7
 MOV r1 2
 SHIFT r1 L 3		// 00010000		
 XOR r5 r1 		// flip d8 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 3
+MOV r1 3           // d7-loop
 SHIFT r1 L 2
 MOV r7 1
 XOR r1 r7		// 00001101
@@ -530,13 +560,16 @@ XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 11010000		
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 4
+BNE A d6
 MOV r1 2
 SHIFT r1 L 2
 XOR r5 r1		// flip d7 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 1		// 00000001
+MOV r1 1		// d6-loop 00000001
 SHIFT r1 L 2		// 00000100
 MOV r7 1		// 00000001
 XOR r1 r7		// 00000101
@@ -551,14 +584,17 @@ XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 01010000		
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 4
+BNE A d5
 MOV r1 2
 SHIFT r1 L 1		// 00000100		
 XOR r5 r1		// flip d6 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 2
-SHIFT r1 2
+MOV r1 2            // d5-loop
+SHIFT r1 L 2
 MOV r7 1
 XOR r1 r7
 SHIFT r1 L 3
@@ -566,18 +602,21 @@ SHIFT r1 L 1		// 10010000
 AND r1 r6
 XOR r1 r3
 MOV r2 2
-SHIFT r2 2 
+SHIFT r2 L 2 
 MOV r7 1 
 XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 10010000
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 3
+BNE A p8
 MOV r1 2		// 00000010
 XOR r5 r1		// flip d5 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 2		
+MOV r1 2	        // p8-loop	
 SHIFT r1 L 3 
 SHIFT r1 L 3		// 10000000
 AND r1 r6
@@ -586,49 +625,58 @@ MOV r2 2
 SHIFT r2 L 3 
 SHIFT r2 L 3
 CMP r1 r2		// jump to the end because no change to p8
-BNE R 1
-BNE A p3END
+BNE A d4
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 3		// 00000011
-SHIFT r1 2		// 00001100
+MOV r1 3		// d4-loop 00000011
+SHIFT r1 L 2	// 00001100
 MOV r7 2		// 00000010
 XOR r1 r7		// 00001110
-SHIFT r1 3		
-SHIFT r1 1		// 11100000
+SHIFT r1 L 3		
+SHIFT r1 L 1	// 11100000
 AND r1 r6
 XOR r1 r3
 MOV r2 3
-SHIFT r2 2 
+SHIFT r2 L 2 
 MOV r7 2
 XOR r2 r7
-SHIFT r2 3
-SHIFT r2 1		// 11100000
+SHIFT r2 L 3
+SHIFT r2 L 1		// 11100000
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 5
+BNE A d3
 MOV r1 2
 SHIFT r1 L 3
 SHIFT r1 L 3		// 10000000		
 XOR r4 r1		// flip d4 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 3
-SHIFT r1 3 
-SHIFT r1 2		// 01100000
+MOV r1 3            // d3-loop
+SHIFT r1 L 3 
+SHIFT r1 L 2		// 01100000
 AND r1 r6
 XOR r1 r3
 MOV r2 3
-SHIFT r2 3
-SHIFT r2 2		// 01100000		
+SHIFT r2 L 3
+SHIFT r2 L 2		// 01100000		
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 5
+BNE A d2
 MOV r1 2
 SHIFT r1 L 3
 SHIFT r1 L 2		// 01000000		
 XOR r4 r1		// flip d3 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 2
-SHIFT r1 2
+MOV r1 2            // d2-loop
+SHIFT r1 L 2
 MOV r7 2
 XOR r1 r7
 SHIFT r1 L 3
@@ -636,32 +684,38 @@ SHIFT r1 L 1		// 10100000
 AND r1 r6
 XOR r1 r3
 MOV r2 2
-SHIFT r2 2 
+SHIFT r2 L 2 
 MOV r7 2
 XOR r2 r7
 SHIFT r2 L 3 
 SHIFT r2 L 1 		// 10100000		
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 5
+BNE A p4
 MOV r1 2
 SHIFT r1 L 3
 SHIFT r1 L 1 		// 00100000		
 XOR r4 r1		// flip d2 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 2		// 00000010
+MOV r1 2		// p4-loop 00000010
 SHIFT r1 L 3
 SHIFT r1 L 1		// 00100000
 AND r1 r6
 XOR r1 r3
 MOV r2 2
 SHIFT r2 L 3
-SHIFT r2 L 1		//00100000		
+SHIFT r2 L 1		// 00100000		
 CMP r1 r2		// jump to the end because no change to p4
-BNE R 1
-BNE A p3END
+BNE A d1
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 3
+MOV r1 3            // d1-loop
 SHIFT r1 L 3
 SHIFT r1 L 3		// 11000000
 AND r1 r6
@@ -670,13 +724,16 @@ MOV r2 3
 SHIFT r2 L 3
 SHIFT r2 L 3
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
-BNE R 5
+BNE A p2
 MOV r1 2
 SHIFT r1 L 3		// 00010000		
 XOR r4 r1		// flip d1 then jump to end
-BNE A p3END
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 2
+MOV r1 2            // p2-loop
 SHIFT r1 L 3
 SHIFT r1 L 2		// 01000000
 AND r1 r6
@@ -685,11 +742,14 @@ MOV r2 2
 SHIFT r2 L 3
 SHIFT r2 L 2
 CMP r1 r2		// jump to the end because no change to p2
-BNE R 1
-BNE A p3END
+BNE A p1
+MOV r1 1
+MOV r2 2
+CMP r1 r2
+BNE A ENDSEC
 
-MOV r1 2
-SHIFT r1 L 3 
+MOV r1 2            // p1-loop
+SHIFT r1 L 3    
 SHIFT r1 L 3		// 10000000
 AND r1 r6
 XOR r1 r3
@@ -697,11 +757,9 @@ MOV r2 2
 SHIFT r2 L 3
 SHIFT r2 L 3		// 10000000		
 CMP r1 r2		// jump to the end because no change to p1
-BNE R 1
-BNE A p3END
+BNE A ENDSEC
 
-//end SEC
-MOV r1 2
+MOV r1 2            // end SEC
 SHIFT r1 L 3 
 SHIFT r1 L 2		// 01000000
 MOV r2 3		// 00000011
@@ -710,7 +768,7 @@ MOV r7 2		// 00000010
 XOR r2 r7		// 00001110
 SHIFT r2 L 3		// 01110000
 SHIFT r2 L 1 		// 11100000
-XOR r2 r5
+AND r2 r5
 SHIFT r2 R 3
 SHIFT r2 R 2
 XOR r1 r2		// final format r1 = F1 F0 0 0 0 D11 D10 D9
@@ -720,28 +778,32 @@ MOV r7 3		// 00000011
 XOR r2 r7		// 00001111
 SHIFT r2 L 1		// 00011110
 AND r2 r5		 
-SHIFT r2 L 3
+SHIFT r2 L 3        // d8 d7 d6 d5 0 0 0 0 
 MOV r3 3		// 00000011
 SHIFT r3 L 2		// 00001100
 MOV r7 3		// 00000011
 XOR r3 r7		// 00001111
-XOR r2 r4		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1 	
+AND r3 r4       // 0000 d4 d3 d2 d1 
+XOR r2 r3		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1 	
+MOV r3 1
+MOV r4 2
+CMP r3 r4
 BNE A p3END
 
-//register r1-r3 & r6, r7 are free
-//r4 has d4_d3_d2_d1_0000
-//r5 has d11_d10_d9_d8_d7_d6_d5_0
-DED:
-MOV r1 3
+// register r1-r3 & r6, r7 are free
+// r4 has d4_d3_d2_d1_0000
+// r5 has d11_d10_d9_d8_d7_d6_d5_0
+MOV r1 0             // DED:
+MOV r1 2           
 SHIFT r1 L 3
 SHIFT r1 L 3		// 1x000000
 MOV r2 3
 SHIFT r2 L 2
 MOV r7 2
-XOR r2 r7		// 00001110
+XOR r2 r7		// 00001010
 SHIFT r2 L 3
-SHIFT r2 L 1		// 11100000
-XOR r2 r5
+SHIFT r2 L 1		// 10100000
+AND r2 r5
 SHIFT r2 R 3
 SHIFT r2 R 2
 XOR r1 r2		// final format r1 = F1 F0 0 0 0 D11 D10 D9
@@ -757,31 +819,38 @@ MOV r3 3
 SHIFT r3 L 2
 MOV r7 3
 XOR r3 r7		// 00001111
-XOR r2 r4		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1 	
+AND r3 r4
+XOR r2 r3		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1 	
 
-SHIFT r0 R 1
-ADD r0 -3 
-ADD r0 -3
-ADD r0 -3
-ADD r0 -3
-ADD r0 -3
-ADD r0 -3
-ADD r0 -3
-ADD r0 -3
-ADD r0 -3
-ADD r0 -3
-ADD r0 -1		 
-STR r0 r1
+MOV r3 0        // p3END
+MOV r3 3       
+SHIFT r3 L 2
+MOV r4 2
+XOR r3 r4
+SHIFT r3 L 3
+SHIFT r3 L 1        // 11100000
+
+MOV r3 3            // 00000011
+SHIFT r3 L 3        // 00011000
+MOV r4 1            // 00000001
+XOR r3 r4           // 00011001
+SHIFT r3 L 2        // 01100100 = 100 register r0 stored
+LDR r0 r3	
+SHIFT r0 L 1        // i*2        
+STR r2 r0
 ADD r0 1
-STR r0 r2
+STR r1 r0
+LDR r0 r3
+ADD r0 1
+STR r0 r3
 
-MOV r1 1
-SHIFT r1 L 3
-ADD r1 3
+MOV r1 1            // 00000001
+SHIFT r1 L 3        // 00001000
+ADD r1 3            // 00001011
 ADD r1 3
 ADD r1 1
 
 CMP r0 r1
-BNE A p1for
+BNE A p2for
 
 MOV r0 0
