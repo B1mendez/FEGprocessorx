@@ -246,10 +246,10 @@ SHIFT r7 L 1
 AND r7 r5
 SHIFT r7 R 1
 XOR r6 r7
-MOV r7 2		// d7
+MOV r7 2		// d7   0   0   0   0   1   0   0   0 --- 
 SHIFT r7 L 2
 AND r7 r5
-SHIFT r7 L 2
+SHIFT r7 L 1
 XOR r6 r7
 MOV r7 2		// d5
 AND r7 r5
@@ -362,7 +362,7 @@ XOR r6 r7		// store calc parity p8cal_p4cal_p2cal_p1cal_p0cal_000
 // free registers are now  r1,r2,r7
 // Use R1 & R2 to store p_rec & p_cal then compare
 // CMP p0
-MOV r1 2
+MOV r1 2        // CMP p0   0   0   0   0   1   0   0   0 
 SHIFT r1 L 2
 AND r1 r3
 MOV r2 2
@@ -374,7 +374,7 @@ BNE A SEC
 // if equal proceed to the next line 
 
 // CMP p8
-MOV r1 2
+MOV r1 2        // CMP p8
 SHIFT r1 L 3
 SHIFT r1 L 3
 AND r1 r3
@@ -387,7 +387,7 @@ BNE A DED
 // if not equal jump to label DED
 
 // CMP p4
-MOV r1 2
+MOV r1 2        // CMP p4
 SHIFT r1 L 3
 SHIFT r1 L 2
 AND r1 r3
@@ -400,7 +400,7 @@ BNE A DED
 // if not equal jump to label DED
 
 // CMP p2
-MOV r1 2
+MOV r1 2        // CMP p2
 SHIFT r1 L 3
 SHIFT r1 L 1
 AND r1 r3
@@ -413,7 +413,7 @@ BNE A DED
 // if not equal jump to label DED 
 
 // CMP p1
-MOV r1 2
+MOV r1 2        // CMP p1
 SHIFT r1 L 3
 AND r1 r3
 MOV r2 2
@@ -442,17 +442,21 @@ MOV r7 3
 XOR r2 r7
 SHIFT r2 L 1		// 00011110
 AND r2 r5
-SHIFT r2 L 3
+SHIFT r2 L 3       // r2 = d8 d7 d6 d5 
 MOV r3 3		// 00000011
 SHIFT r3 L 2		// 00001100
 MOV r7 3		// 00001111
 XOR r3 r7		// 00001111
+SHIFT r3 L 3
+SHIFT r3 L 1
 AND r3 r4       // 0000d4d3d2d1
+SHIFT r3 R 3 
+SHIFT r3 R 1
 XOR r2 r3		// final format r2 = D8 D7 D6 D5 D4 D3 D2 D1
 MOV r3 1
 MOV r4 2
 CMP r3 r4
-BNE A ENDSEC
+BNE A p3END
 
 MOV r1 3		// SEC(single error correction): 00000011
 SHIFT r1 L 2		// 00001100
@@ -461,13 +465,14 @@ XOR r1 r7		// 00001111
 SHIFT r1 L 3
 SHIFT r1 L 1		// 11110000		
 AND r1 r6				
-XOR r1 r3		// p8 p4 p2 p1 _0000 calc					
+SHIFT r1 L 0 		// p8 p4 p2 p1 _0000 calc					
 MOV r2 3
 SHIFT r2 L 2
 MOV r7 3
 XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 11110000
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d10
 MOV r1 2				
@@ -485,12 +490,13 @@ MOV r7 2
 XOR r1 r7
 SHIFT r1 L 3		// 01110000
 AND r1 r6		
-XOR r1 r3		
+SHIFT r1 L 0 		
 MOV r2 3
 SHIFT r2 L 2
 MOV r7 2
 XOR r2 r7
-SHIFT r2 L 3 		// 01110000		
+SHIFT r2 L 3 		// 01110000	
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d9
 MOV r1 2
@@ -509,13 +515,14 @@ XOR r1 r7		// 00001011
 SHIFT r1 L 3
 SHIFT r1 L 1		// 10110000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 2
 SHIFT r2 L 2
 MOV r7 3
 XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d8
 MOV r1 2
@@ -531,10 +538,11 @@ MOV r1 3            // d8-loop
 SHIFT r1 L 3 
 SHIFT r1 L 1		// 00110000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 3
 SHIFT r2 L 3
 SHIFT r2 L 1		// 00110000		
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d7
 MOV r1 2
@@ -552,13 +560,14 @@ XOR r1 r7		// 00001101
 SHIFT r1 L 3 
 SHIFT r1 L 1		// 11010000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 3
 SHIFT r2 L 2
 MOV r7 1 
 XOR r2 r7
 SHIFT r2 L 3
-SHIFT r2 L 1		// 11010000		
+SHIFT r2 L 1		// 11010000	
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d6
 MOV r1 2
@@ -576,13 +585,14 @@ XOR r1 r7		// 00000101
 SHIFT r1 L 3
 SHIFT r1 L 1		// 01010000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 1
 SHIFT r2 L 2
 MOV r7 1 
 XOR r2 r7
 SHIFT r2 L 3
-SHIFT r2 L 1		// 01010000		
+SHIFT r2 L 1		// 01010000	
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d5
 MOV r1 2
@@ -600,13 +610,14 @@ XOR r1 r7
 SHIFT r1 L 3
 SHIFT r1 L 1		// 10010000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 2
 SHIFT r2 L 2 
 MOV r7 1 
 XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 10010000
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A p8
 MOV r1 2		// 00000010
@@ -620,10 +631,11 @@ MOV r1 2	        // p8-loop
 SHIFT r1 L 3 
 SHIFT r1 L 3		// 10000000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 2
 SHIFT r2 L 3 
 SHIFT r2 L 3
+AND r2 r3	
 CMP r1 r2		// jump to the end because no change to p8
 BNE A d4
 MOV r1 1
@@ -638,13 +650,14 @@ XOR r1 r7		// 00001110
 SHIFT r1 L 3		
 SHIFT r1 L 1	// 11100000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 3
 SHIFT r2 L 2 
 MOV r7 2
 XOR r2 r7
 SHIFT r2 L 3
 SHIFT r2 L 1		// 11100000
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d3
 MOV r1 2
@@ -660,10 +673,11 @@ MOV r1 3            // d3-loop
 SHIFT r1 L 3 
 SHIFT r1 L 2		// 01100000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 3
 SHIFT r2 L 3
-SHIFT r2 L 2		// 01100000		
+SHIFT r2 L 2		// 01100000	
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A d2
 MOV r1 2
@@ -682,13 +696,14 @@ XOR r1 r7
 SHIFT r1 L 3
 SHIFT r1 L 1		// 10100000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 2
 SHIFT r2 L 2 
 MOV r7 2
 XOR r2 r7
 SHIFT r2 L 3 
-SHIFT r2 L 1 		// 10100000		
+SHIFT r2 L 1 		// 10100000
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A p4
 MOV r1 2
@@ -704,10 +719,11 @@ MOV r1 2		// p4-loop 00000010
 SHIFT r1 L 3
 SHIFT r1 L 1		// 00100000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 2
 SHIFT r2 L 3
-SHIFT r2 L 1		// 00100000		
+SHIFT r2 L 1		// 00100000	
+AND r2 r3	
 CMP r1 r2		// jump to the end because no change to p4
 BNE A d1
 MOV r1 1
@@ -719,10 +735,11 @@ MOV r1 3            // d1-loop
 SHIFT r1 L 3
 SHIFT r1 L 3		// 11000000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 3
 SHIFT r2 L 3
 SHIFT r2 L 3
+AND r2 r3	
 CMP r1 r2		// if they equal proceed to next line if not jump 2 lines
 BNE A p2
 MOV r1 2
@@ -737,10 +754,11 @@ MOV r1 2            // p2-loop
 SHIFT r1 L 3
 SHIFT r1 L 2		// 01000000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 2
 SHIFT r2 L 3
 SHIFT r2 L 2
+AND r2 r3	
 CMP r1 r2		// jump to the end because no change to p2
 BNE A p1
 MOV r1 1
@@ -752,10 +770,11 @@ MOV r1 2            // p1-loop
 SHIFT r1 L 3    
 SHIFT r1 L 3		// 10000000
 AND r1 r6
-XOR r1 r3
+SHIFT r1 L 0 
 MOV r2 2
 SHIFT r2 L 3
-SHIFT r2 L 3		// 10000000		
+SHIFT r2 L 3		// 10000000	
+AND r2 r3	
 CMP r1 r2		// jump to the end because no change to p1
 BNE A ENDSEC
 
