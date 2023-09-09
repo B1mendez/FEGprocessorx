@@ -21,9 +21,9 @@ def convert(inFile, outFile1):
 	distance = {'p1for': '00000', 'p2SEC': '00001', 'p2DED: '00010', 'p2for': '00011'}
  	# Program 2 distance associated with Look up Table
 	# distance = { 'p2for': '00000', 'SEC': '00001', 'DED': '00010', 'p3END': '00011', 	
-		'd10': '00100', 'd9': '00101', 'd8': '00110', 'd7': '00111', 'd6': '01000', 
-  		'd5': '01001', 'p8': '01010', 'd4': '01011','d3': '01100', 'd2': '01101', 
-    		'p4': '01110','d1': '01111', 'p2': '10000','p1': '10001','ENDSEC':'10010' }
+	#	'd10': '00100', 'd9': '00101', 'd8': '00110', 'd7': '00111', 'd6': '01000', 
+  	#	'd5': '01001', 'p8': '01010', 'd4': '01011','d3': '01100', 'd2': '01101', 
+    	#	'p4': '01110','d1': '01111', 'p2': '10000','p1': '10001','ENDSEC':'10010' }
 	
 	#reads through file to convert instructions to machine code
 	for line in assembly:
