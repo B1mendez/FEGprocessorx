@@ -1,0 +1,462 @@
+// part a
+
+// r0: loop counter
+// r1: occurence_in_bytes
+// r2: num_of_bytes
+// r3: num_of_times
+// r4: patterns
+// r5: occurence_in_single_byte
+// r7: byte_value
+// r6: free registers
+
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+
+// for loop 1 starts
+// initialization
+MOV r6 0
+MOV r7 0
+
+// load patterns
+MOV r6 2
+SHIFT r6 L 2
+SHIFT r6 L 2
+LDR r4 r6
+SHIFT r4 R 3
+
+// load byte_value
+LDR r7 r0
+
+MOV r6 3
+SHIFT r6 L 3
+ADD r6 3
+ADD r6 3
+ADD r6 1
+
+// 1st if statement
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r1 1
+
+MOV r7 0
+LDR r7 r0
+
+// 2nd if statement
+SHIFT r7 R 1
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r1 1
+
+MOV r7 0
+LDR r7 r0
+
+// 3rd if statement
+SHIFT r7 R 2
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r1 1
+
+MOV r7 0
+LDR r7 r0
+
+// 4th if statement
+SHIFT r7 R 3
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r1 1
+
+// increment 1 to counter
+ADD r0 1
+
+// compare
+MOV r6 1
+SHIFT r6 L 2
+SHIFT r6 L 3
+
+CMP r0 r6
+BNE A p3for1
+
+ADD r6 1
+STR r1 r6
+
+// part b
+
+// r0: loop counter
+// r1: occurence_in_bytes
+// r2: num_of_bytes
+// r3: num_of_times
+// r4: patterns
+// r5: occurence_in_single_byte
+// r7: byte_value
+// r6: free registers
+
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+
+// for loop 2 starts
+// initialization
+MOV r6 0
+MOV r7 0
+
+// load patterns
+MOV r6 2
+SHIFT r6 L 2
+SHIFT r6 L 2
+LDR r4 r6
+SHIFT r4 R 3
+
+// load byte_value
+LDR r7 r0
+
+MOV r6 3
+SHIFT r6 L 3
+ADD r6 3
+ADD r6 3
+ADD r6 1
+
+// 1st if statement
+AND r7 r6
+CMP r7 r4
+BNE R p3If2
+ADD r2 1
+MOV r6 3
+SHIFT r6 L 3
+SHIFT r6 L 3
+CMP r0 r6
+BNE A p3EndLoop
+
+MOV r7 0
+LDR r7 r0
+
+// 2nd if statement
+SHIFT r7 R 1
+AND r7 r6
+CMP r7 r4
+BNE R p3If2
+ADD r2 1
+MOV r6 3
+SHIFT r6 L 3
+SHIFT r6 L 3
+CMP r0 r6
+BNE A p3EndLoop
+
+MOV r7 0
+LDR r7 r0
+
+// 3rd if statement
+SHIFT r7 R 2
+AND r7 r6
+CMP r7 r4
+BNE R p3If2
+ADD r2 1
+MOV r6 3
+SHIFT r6 L 3
+SHIFT r6 L 3
+CMP r0 r6
+BNE A p3EndLoop
+
+MOV r7 0
+LDR r7 r0
+
+// 4th if statement
+SHIFT r7 R 3
+AND r7 r6
+CMP r7 r4
+BNE R p3If2
+ADD r2 1
+MOV r6 3
+SHIFT r6 L 3
+SHIFT r6 L 3
+CMP r0 r6
+BNE A p3EndLoop
+
+// compare
+MOV r6 0
+MOV r6 1
+SHIFT r6 L 2
+SHIFT r6 L 3
+
+// increment 1 to counter
+ADD r0 1
+
+CMP r0 r6
+BNE A p3for2
+
+ADD r6 2
+STR r2 r6
+
+// part c
+
+// r0: loop counter
+// r1: occurence_in_bytes
+// r2: num_of_bytes
+// r3: num_of_times
+// r4: patterns
+// r5: occurence_in_single_byte
+// r7: byte_value
+// r6: free registers
+
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+
+// for loop 3 starts
+// initialization
+MOV r6 0
+MOV r7 0
+
+// load patterns
+MOV r6 2
+SHIFT r6 L 2
+SHIFT r6 L 2
+LDR r4 r6
+SHIFT r4 R 3
+
+// load byte_value
+LDR r7 r0
+
+MOV r6 3
+SHIFT r6 L 3
+ADD r6 3
+ADD r6 3
+ADD r6 1
+
+// 1st if statement
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 2nd if statement
+SHIFT r7 R 1
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 3rd if statement
+SHIFT r7 R 2
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 4th if statement
+SHIFT r7 R 3
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 5th if statement
+MOV r6 0
+XOR r6 r0
+ADD r6 1
+
+SHIFT r7 L 3
+SHIFT r7 L 1
+SHIFT r7 R 3
+LDR r6 r6
+SHIFT r6 R 3
+SHIFT r6 R 3
+SHIFT r6 R 1
+XOR r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 6th if statement
+MOV r6 0
+XOR r6 r0
+ADD r6 1
+
+SHIFT r7 L 3
+SHIFT r7 L 2
+SHIFT r7 R 3
+LDR r6 r6
+SHIFT r6 R 3
+SHIFT r6 R 3
+XOR r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 7th if statement
+MOV r6 0
+XOR r6 r0
+ADD r6 1
+
+SHIFT r7 L 3
+SHIFT r7 L 3
+SHIFT r7 R 3
+LDR r6 r6
+SHIFT r6 R 3
+SHIFT r6 R 2
+XOR r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 8th if statement
+MOV r6 0
+XOR r6 r0
+ADD r6 1
+
+SHIFT r7 L 3
+SHIFT r7 L 3
+SHIFT r7 L 1
+SHIFT r7 R 3
+LDR r6 r6
+SHIFT r6 R 3
+SHIFT r6 R 1
+XOR r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// increment 1 to counter
+ADD r0 1
+
+// compare
+MOV r6 3
+SHIFT r6 L 3
+ADD r6 3
+ADD r6 3
+ADD r6 1
+
+CMP r0 r6
+BNE A p3for3
+
+// special case
+
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r4 0
+MOV r5 0
+MOV r6 0
+MOV r7 0
+
+// load patterns
+MOV r6 2
+SHIFT r6 L 2
+SHIFT r6 L 2
+LDR r4 r6
+SHIFT r4 R 3
+
+// load byte_value
+LDR r7 r0
+
+MOV r6 3
+SHIFT r6 L 3
+ADD r6 3
+ADD r6 3
+ADD r6 1
+
+// 1st if statement
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 2nd if statement
+SHIFT r7 R 1
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 3rd if statement
+SHIFT r7 R 2
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+MOV r7 0
+LDR r7 r0
+
+// 4th if statement
+SHIFT r7 R 3
+AND r7 r6
+CMP r7 r4
+BNE R p3If1
+ADD r3 1
+
+ADD r6 2
+ADD r6 2
+STR r3 r6
+
+// placeholder
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r0 0
+MOV r0 0
+
