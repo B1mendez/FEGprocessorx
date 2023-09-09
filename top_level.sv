@@ -98,6 +98,6 @@ module top_level(
  
   end
 
-  assign done = prog_ctr == 128;
+  assign done = prog_ctr == 748;
  
 endmodule
