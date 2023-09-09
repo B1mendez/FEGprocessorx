@@ -5,7 +5,7 @@ module PC_LUT #(parameter D=12)(
   always_comb case(addr)
    5'd0: target = 13;   
 	5'd1: target = 20;   
-	5'd2: target = 1;   
+	5'd2: target = 2;   
 	5'd3: target = 7;
 	5'd4: target = 7;
 	5'd5: target = 117;
