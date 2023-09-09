@@ -1,11 +1,16 @@
 module PC_LUT #(parameter D=12)(
-  input       [5:0] addr,	   // target 4 values
+  input       [4:0] addr,	   // target 4 values
   output logic[D-1:0] target);
 
   always_comb case(addr)
-   6'd0: target = -5;   // go back 5 spaces
-	6'd1: target = 20;   // go ahead 20 spaces
-	6'd2: target = '1;   // go back 1 space   1111_1111_1111
+   5'd0: target = 13;   
+	5'd1: target = 20;   
+	5'd2: target = 1;   
+	5'd3: target = 7;
+	5'd4: target = 7;
+	5'd5: target = 117;
+	5'd6: target = 59;
+	5'd7: target = 132;
 	default: target = 'b0;  // hold PC  
   endcase
 
@@ -43,3 +48,4 @@ LookUp table for PROG_2
 
 endmodule
   */
+
