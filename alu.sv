@@ -6,12 +6,8 @@
   input      direct,
   input		 moveControl,
   input[7:0] inA, inB,	  // 8-bit wide data path
-//  input      sc_i,        // shift_carry in
   output logic[7:0] rslt,
-  output logic            // shift_carry out
-//							pari,      // reduction XOR (output)
-//			           zero,      // NOR (output)
-					     br_logic   // BR 
+  output logic             br_logic   // BR 
 );
 
 always_comb begin 
@@ -58,9 +54,6 @@ always_comb begin
     3'b111: // br
       rslt = 1'b0;
   endcase
-  
-//  zero = !rslt;
-//  pari = ^rslt;
 end
    
 endmodule

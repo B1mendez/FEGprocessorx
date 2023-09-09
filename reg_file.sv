@@ -22,21 +22,3 @@ module reg_file #(parameter pw=3)(
       core[wr_addr] <= dat_in; 
 
 endmodule
-/*
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-	  xxxx_xxxx
-*/

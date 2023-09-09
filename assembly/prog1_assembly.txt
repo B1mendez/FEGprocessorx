@@ -1,0 +1,426 @@
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r6 0
+MOV r7 0
+
+
+MOV r1 3
+SHIFT r1 L 2
+SHIFT r1 L 3
+STR r0 r1
+
+// loop start
+// retrieve i
+MOV r0 0
+MOV r1 0
+MOV r2 0
+MOV r3 0
+MOV r4 0
+MOV r5 0
+MOV r6 0
+MOV r7 0
+
+MOV r1 3
+SHIFT r1 L 2
+SHIFT r1 L 3
+LDR r0 r1
+
+SHIFT r0 L 1
+LDR r1 r0
+ADD r0 1
+LDR r2 r0
+
+XOR r3 r1
+XOR r4 r2
+
+// p8
+
+// calculate
+SHIFT r3 R 2
+SHIFT r3 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 1
+XOR r3 r4
+
+// store
+MOV r4 1
+AND r3 r4
+SHIFT r4 L 3
+SHIFT r4 L 3
+STR r3 r4  
+
+// p4
+MOV r3 0
+MOV r4 0
+XOR r3 r1
+XOR r4 r2
+
+// r3
+MOV r6 0
+MOV r7 0
+MOV r5 1
+
+XOR r6 r5
+SHIFT r6 L 2
+SHIFT r6 L 2
+XOR r6 r5
+SHIFT r6 L 1
+XOR r6 r5
+SHIFT r6 L 1
+XOR r6 r5
+SHIFT r6 L 1
+
+AND r3 r6
+
+// calculate
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 2
+SHIFT r4 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 1
+XOR r3 r4
+
+// store
+MOV r4 1
+AND r3 r4
+SHIFT r4 L 3
+SHIFT r4 L 3
+ADD r4 1
+STR r3 r4
+
+// p2
+MOV r3 0
+MOV r4 0
+XOR r3 r1
+XOR r4 r2
+
+// r3
+MOV r6 0
+MOV r7 0
+MOV r5 1
+
+XOR r6 r5
+SHIFT r6 L 1
+XOR r6 r5
+SHIFT r6 L 2
+XOR r6 r5
+SHIFT r6 L 1
+XOR r6 r5
+SHIFT r6 L 2
+XOR r6 r5
+
+AND r3 r6
+
+// r4
+MOV r6 0
+MOV r7 0
+MOV r5 1
+
+XOR r6 r5
+SHIFT r6 L 1
+XOR r6 r5
+SHIFT r6 L 1
+
+AND r4 r6
+
+// calculate
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 2
+SHIFT r4 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 1
+XOR r3 r4
+
+// store
+MOV r4 1
+AND r3 r4
+SHIFT r4 L 3
+SHIFT r4 L 3
+ADD r4 1
+ADD r4 1
+STR r3 r4
+
+// p1
+MOV r3 0
+MOV r4 0
+XOR r3 r1
+XOR r4 r2
+
+// r3
+MOV r6 0
+MOV r7 0
+MOV r5 1
+
+XOR r6 r5
+SHIFT r6 L 2
+XOR r6 r5
+SHIFT r6 L 1
+XOR r6 r5
+SHIFT r6 L 2
+XOR r6 r5
+SHIFT r6 L 1
+XOR r6 r5
+
+AND r3 r6
+
+// r4
+MOV r6 0
+MOV r7 0
+MOV r5 1
+
+XOR r6 r5
+SHIFT r6 L 2
+XOR r6 r5
+
+AND r4 r6
+
+// calculate
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 2
+SHIFT r4 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 2
+XOR r3 r4
+MOV r4 0
+XOR r4 r3
+SHIFT r4 R 1
+XOR r3 r4
+
+// store
+MOV r4 1
+AND r3 r4
+SHIFT r4 L 3
+SHIFT r4 L 3
+ADD r4 1
+ADD r4 1
+ADD r4 1
+STR r3 r4
+
+// p0
+
+// load parity
+MOV r1 1
+SHIFT r1 L 3
+SHIFT r1 L 3
+LDR r2 r1
+ADD r1 1
+LDR r3 r1
+ADD r1 1
+LDR r4 r1
+ADD r1 1
+LDR r5 r1
+
+// get i
+MOV r6 3
+SHIFT r6 L 2
+SHIFT r6 L 3
+LDR r0 r6
+SHIFT r0 L 1
+
+// get input and output
+LDR r6 r0
+ADD r0 1
+LDR r7 r0
+
+// xor b11 to b1
+XOR r7 r6
+MOV r6 0
+XOR r6 r7
+SHIFT r6 R 2
+SHIFT r6 R 2
+XOR r7 r6
+MOV r6 0
+XOR r6 r7
+SHIFT r6 R 2
+XOR r7 r6
+MOV r6 0
+XOR r6 r7
+SHIFT r6 R 1
+XOR r7 r6
+
+// xor parity 
+XOR r7 r2
+XOR r7 r3
+XOR r7 r4
+XOR r7 r5
+
+// store
+MOV r4 1
+AND r7 r4
+SHIFT r4 L 3
+SHIFT r4 L 3
+ADD r4 1
+ADD r4 1
+ADD r4 1
+ADD r4 1
+STR r7 r4
+
+// combine
+
+// LSW  
+// get i
+MOV r1 3
+SHIFT r1 L 2
+SHIFT r1 L 3
+LDR r7 r1
+SHIFT r7 L 1
+
+// load input   
+LDR r1 r7
+ADD r7 1
+LDR r2 r7
+
+// b4 to b2
+MOV r3 0
+XOR r3 r1
+SHIFT r3 R 1
+SHIFT r3 L 2
+SHIFT r3 L 3
+
+// p4
+MOV r4 1
+SHIFT r4 L 3
+SHIFT r4 L 3
+ADD r4 1
+LDR r5 r4
+
+SHIFT r5 L 2
+SHIFT r5 L 2
+XOR r3 r5
+
+// b1
+MOV r5 0
+XOR r5 r1
+MOV r6 1
+AND r5 r6
+
+SHIFT r5 L 3
+XOR r3 r5
+
+// p2
+ADD r4 1
+LDR r5 r4
+SHIFT r5 L 2
+XOR r3 r5
+
+// p1
+ADD r4 1
+LDR r5 r4
+SHIFT r5 L 1
+XOR r3 r5
+
+// p0
+ADD r4 1
+LDR r5 r4
+XOR r3 r5
+
+// store LSW
+// get i and calculate output i (+30)
+MOV r1 3
+SHIFT r1 L 2
+SHIFT r1 L 3
+LDR r0 r1
+SHIFT r0 L 1
+ADD r0 3
+ADD r0 3
+ADD r0 3
+ADD r0 3
+ADD r0 3
+ADD r0 3
+ADD r0 3
+ADD r0 3
+ADD r0 3
+ADD r0 3
+STR r3 r0
+
+// MSW
+// get i
+MOV r1 3
+SHIFT r1 L 2
+SHIFT r1 L 3
+LDR r7 r1
+SHIFT r7 L 1
+
+// load input   
+LDR r1 r7
+ADD r7 1
+LDR r2 r7
+
+// b11 to b9
+MOV r3 0
+XOR r3 r2
+SHIFT r3 L 3
+SHIFT r3 L 2
+
+// b8 to b5
+MOV r4 0
+XOR r4 r1
+SHIFT r4 R 2
+SHIFT r4 R 2
+SHIFT r4 L 1
+XOR r3 r4
+
+// p8
+MOV r5 1
+SHIFT r5 L 3
+SHIFT r5 L 3
+LDR r6 r5
+XOR r3 r6
+
+// store MSW
+ADD r0 1
+STR r3 r0
+
+// get i
+MOV r1 3
+SHIFT r1 L 2
+SHIFT r1 L 3
+LDR r0 r1
+
+// increment i
+ADD r0 1
+
+// store i
+STR r0 r1
+
+// compare i with 15
+MOV r1 1
+SHIFT r1 L 3
+ADD r1 3
+ADD r1 3
+ADD r1 1
+
+CMP r0 r1
+BNE A p1for
+
+MOV r0 0
